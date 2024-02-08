@@ -7,3 +7,9 @@ export interface Todo {
   updated_date: string;
   created_date: string;
 }
+
+export interface NewTodo {
+  task: string;
+  description: string | null | undefined;
+  completed: boolean;
+}
