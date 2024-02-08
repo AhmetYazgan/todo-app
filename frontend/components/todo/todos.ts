@@ -30,20 +30,24 @@ export const getAllTodos = async () => {
 };
 
 export const newTodo = async (todo: NewTodo) => {
-  const token = cookies().get('token');
+  const token = cookies().get("token");
   if (token) {
     const url = "http://127.0.0.1:8000/api/todos/";
     try {
-      const response = await axios.post(url, {
-        task: todo.task,
-        description: todo.description,
-        is_done: todo.completed
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${token.value}`,
+      const response = await axios.post(
+        url,
+        {
+          task: todo.task,
+          description: todo.description,
+          is_done: todo.completed,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token.value}`,
+          },
         }
-      })
+      );
       if (response.status === 201) {
         const data: Todo = response.data;
         return { success: true, data: data };
@@ -57,9 +61,151 @@ export const newTodo = async (todo: NewTodo) => {
       } else {
         console.log(error);
       }
-      return { success: false, error: 'An error occurred' };
+      return { success: false, error: "An error occurred" };
     }
   } else {
-    return { success: false, error: 'An authentication error occured' };
+    return { success: false, error: "An authentication error occured" };
   }
-}
+};
+
+export const updateTodoStatus = async (
+  id: FormDataEntryValue,
+  status: FormDataEntryValue
+) => {
+  const token = cookies().get("token");
+  if (token) {
+    const url = `http://127.0.0.1:8000/api/todos/${id}/`;
+    try {
+      const response = await axios.patch(
+        url,
+        {
+          is_done: !JSON.parse(status.toString()),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token.value}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        const data: Todo = response.data;
+        return { success: true, data: data };
+      } else {
+        const errorData = response.data;
+        return { success: false, error: errorData };
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.message);
+      } else {
+        console.log(error);
+      }
+      return { success: false, error: "An error occurred" };
+    }
+  } else {
+    return { success: false, error: "An authentication error occured" };
+  }
+};
+
+export const editTodo = async (id: string, todo: NewTodo) => {
+  const token = cookies().get("token");
+  if (token) {
+    const url = `http://127.0.0.1:8000/api/todos/${id}/`;
+    try {
+      const response = await axios.put(
+        url,
+        {
+          task: todo.task,
+          description: todo.description,
+          is_done: todo.completed,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token.value}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const data: Todo = response.data;
+        return { success: true };
+      } else {
+        const errorData = response.data;
+        return { success: false, error: errorData };
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.message);
+      } else {
+        console.log(error);
+      }
+      return { success: false, error: "An error occurred" };
+    }
+  } else {
+    return { success: false, error: "An authentication error occured" };
+  }
+};
+
+export const getTodo = async (id: string) => {
+  const token = cookies().get("token");
+  if (token) {
+    const url = `http://127.0.0.1:8000/api/todos/${id}/`;
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token.value}`,
+        },
+      });
+
+      if (response.status === 200) {
+        const data: Todo = response.data;
+        return { success: true, data: data };
+      } else {
+        const errorData = response.data;
+        return { success: false, error: errorData };
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.message);
+      } else {
+        console.log(error);
+      }
+      return { success: false, error: "An error occurred" };
+    }
+  } else {
+    return { success: false, error: "An authentication error occured" };
+  }
+};
+
+export const deleteTodo = async (id: FormDataEntryValue) => {
+  const token = cookies().get("token");
+  if (token) {
+    const url = `http://127.0.0.1:8000/api/todos/${id}/`;
+    try {
+      const response = await axios.delete(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token.value}`,
+        },
+      });
+      if (response.status === 204) {
+        return { success: true };
+      } else {
+        const errorData = response.data;
+        return { success: false, error: errorData };
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.message);
+      } else {
+        console.log(error);
+      }
+      return { success: false, error: "An error occurred" };
+    }
+  } else {
+    return { success: false, error: "An authentication error occured" };
+  }
+};
