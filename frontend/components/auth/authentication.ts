@@ -22,11 +22,9 @@ export const getUser = async () => {
                 const data: UserInfo = response.data;
                 return data;
             } else {
-                const errorData = response.data;
-                console.log(errorData)
+                return null;
             }
         } catch (error) {
-            console.log(error);
             throw error;
         }
     } else {
@@ -85,15 +83,9 @@ export const register = async (userData: RegisterUser) => {
             storeId(data.id);
             return { success: true };
         } else {
-            const errorData = response.data;
-            return { success: false, error: errorData };
+            return { success: false, error: "Something went wrong!" };
         }
     } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log(error.message);
-        } else {
-            console.log(error);
-        }
         return { success: false, error: 'An error occurred' };
     }
 }
@@ -109,14 +101,12 @@ export const login = async (loginData: LoginData) => {
             const data: LoggedInUser = response.data;
             storeToken(data.key);
             storeId(data.user.id);
-            return { success: true };
+            return { success: true, error: "" };
         } else {
-            const errorData = response.data;
-            return { success: false, error: errorData };
+            return { success: false, error: "Something went wrong!" };
         }
     } catch (error) {
-        console.log(error);
-        return { success: false, error: 'An error occurred' };
+        return { success: false, error: 'An error occurred. Please check your credentials.' };
     }
 };
 
@@ -136,14 +126,11 @@ export const logout = async () => {
         if (response.status === 200) {
             cookies().delete('userId');
             cookies().delete('token');
-            return { success: true };
+            return { success: true, error: "" };
         } else {
-            const errorData = response.data;
-            console.log(errorData)
-            return { success: false, error: errorData };
+            return { success: false, error: "Something went wrong!" };
         }
     } catch (error) {
-        console.log(error);
         return { success: false, error: 'An error occurred' };
     }
 };

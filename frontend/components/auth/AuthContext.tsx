@@ -4,6 +4,7 @@ import { createContext, useEffect, useState } from 'react';
 import { getUser } from './authentication';
 import { usePathname, useRouter } from 'next/navigation';
 import { UserInfo } from '@/lib/auth/types';
+import toast from 'react-hot-toast';
 
 export const AuthContext = createContext<{ user: UserInfo | null }>({
     user: null
@@ -24,7 +25,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setUser(null);
             }
         } catch (error) {
-            console.log(error);
+            toast.error('Failed to fetch user data');
         }
     }
 

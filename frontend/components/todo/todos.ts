@@ -17,16 +17,15 @@ export const getAllTodos = async () => {
       });
       if (response.status === 200) {
         const data: Todo[] = response.data;
-        return data;
+        return { success: true, data: data };
       } else {
-        const errorData = response.data;
-        console.log(errorData);
+        return { success: false, error: "Something went wrong!" };
       }
     } catch (error) {
-      console.log(error);
-      throw error;
+      return { success: false, error: "An error occurred." };
     }
   }
+  return { success: false, error: "An authentication error occured." };
 };
 
 export const newTodo = async (todo: NewTodo) => {
@@ -52,15 +51,9 @@ export const newTodo = async (todo: NewTodo) => {
         const data: Todo = response.data;
         return { success: true, data: data };
       } else {
-        const errorData = response.data;
-        return { success: false, error: errorData };
+        return { success: false, error: "Something went wrong!" };
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.message);
-      } else {
-        console.log(error);
-      }
       return { success: false, error: "An error occurred" };
     }
   } else {
@@ -96,11 +89,6 @@ export const updateTodoStatus = async (
         return { success: false, error: errorData };
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.message);
-      } else {
-        console.log(error);
-      }
       return { success: false, error: "An error occurred" };
     }
   } else {
@@ -129,18 +117,11 @@ export const editTodo = async (id: string, todo: NewTodo) => {
       );
 
       if (response.status === 200) {
-        const data: Todo = response.data;
         return { success: true };
       } else {
-        const errorData = response.data;
-        return { success: false, error: errorData };
+        return { success: false, error: 'Something went wrong!' };
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.message);
-      } else {
-        console.log(error);
-      }
       return { success: false, error: "An error occurred" };
     }
   } else {
@@ -164,15 +145,9 @@ export const getTodo = async (id: string) => {
         const data: Todo = response.data;
         return { success: true, data: data };
       } else {
-        const errorData = response.data;
-        return { success: false, error: errorData };
+        return { success: false, error: 'Something went wrong!' };
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.message);
-      } else {
-        console.log(error);
-      }
       return { success: false, error: "An error occurred" };
     }
   } else {
@@ -198,11 +173,6 @@ export const deleteTodo = async (id: FormDataEntryValue) => {
         return { success: false, error: errorData };
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.message);
-      } else {
-        console.log(error);
-      }
       return { success: false, error: "An error occurred" };
     }
   } else {

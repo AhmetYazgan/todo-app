@@ -15,23 +15,27 @@ import { useContext } from "react";
 import { AuthContext } from "./auth/AuthContext";
 import { logout } from "./auth/authentication";
 import { useRouter } from "next/navigation";
+import toast from 'react-hot-toast';
 
 export default function Nav() {
   const { user } = useContext(AuthContext);
   const router = useRouter();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     logout()
       .then((result) => {
         if (result.success) {
-          router.push("/");
-          window.location.reload();
+          toast.success('Logged out successfully!');
+          setTimeout(() => {
+            router.push('/');
+            router.refresh();
+          }, 500);
         } else {
-          console.log(result.error);
+          toast.error(result.error);
         }
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error);
       });
   };
 
