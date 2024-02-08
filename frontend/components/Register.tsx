@@ -2,7 +2,9 @@
 
 import { isValidConfirmPassword, isValidEmail, isValidPassword, isValidRegisterForm, isValidUsername } from '@/utils/validation';
 import { Button, Label, TextInput } from 'flowbite-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { register } from './auth/authentication';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
     const [formValues, setFormValues] = useState({
@@ -18,6 +20,8 @@ export default function Register() {
         password: "",
         repeatPassword: ""
     });
+
+    const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -38,8 +42,21 @@ export default function Register() {
 
         // If there are no validation errors, you can proceed with form submission
         if (isValidRegisterForm(formValues)) {
-            // Perform your form submission logic here
-            console.log('Form submitted successfully');
+            register(formValues).then(result => {
+                if (result.success) {
+                    setFormValues({
+                        username: "",
+                        email: "",
+                        password: "",
+                        repeatPassword: ""
+                    })
+                    router.push('/');
+                } else {
+                    console.log(result.error);
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
         }
     }
 

@@ -3,6 +3,8 @@
 import { isValidLoginForm, isValidPassword, isValidUsername } from '@/utils/validation';
 import { Button, Label, TextInput } from 'flowbite-react';
 import { useState } from 'react';
+import { login } from './auth/authentication';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
     const [formValues, setFormValues] = useState({
@@ -13,6 +15,8 @@ export default function Login() {
         username: "",
         password: ""
     });
+
+    const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -31,8 +35,19 @@ export default function Login() {
 
         // If there are no validation errors, you can proceed with form submission
         if (isValidLoginForm(formValues)) {
-            // Perform your form submission logic here
-            console.log('Form submitted successfully');
+            login(formValues).then(result => {
+                if (result.success) {
+                    setFormValues({
+                        username: "",
+                        password: ""
+                    })
+                    router.push('/');
+                } else {
+                    console.log(result.error);
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
         }
     };
 
