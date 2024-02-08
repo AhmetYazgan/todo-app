@@ -1,12 +1,14 @@
 import React from "react";
 import TodoItem from "./TodoItem";
 import { Accordion } from "flowbite-react";
-import { getAllTodos } from "./todos";
 import Link from "next/link";
+import { getAllTodos } from "./todos";
+
+export const revalidate = 0;
 
 export default async function TodoList() {
   const todos = await getAllTodos();
-  console.log(todos);
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       {todos ? (
