@@ -38,14 +38,21 @@ INSTALLED_APPS = [
   # third party
   'rest_framework',
   'drf_yasg',
+  'rest_framework.authtoken',
+  'dj_rest_auth',
+  # 'debug_toolbar',
+  'corsheaders',
   # 'debug_toolbar',
 
   # my apps
+  'users',
+  'todo',
 ]
 
 MIDDLEWARE = [
   # 'debug_toolbar.middleware.DebugToolbarMiddleware',
   'django.middleware.security.SecurityMiddleware',
+  'corsheaders.middleware.CorsMiddleware',
   'django.contrib.sessions.middleware.SessionMiddleware',
   'django.middleware.common.CommonMiddleware',
   'django.middleware.csrf.CsrfViewMiddleware',
@@ -176,3 +183,20 @@ LOGGING = {
       },
   },
 }
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework.authentication.TokenAuthentication',
+  ]
+}
+
+REST_AUTH = {
+	"TOKEN_SERIALIZER": 'users.serializers.CustomTokenSerializer',
+}
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'pictures'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
