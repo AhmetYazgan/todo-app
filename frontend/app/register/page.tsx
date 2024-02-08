@@ -1,6 +1,6 @@
 import Register from '@/components/Register'
 import React from 'react'
 
-export default function page() {
+export default function RegisterPage() {
     return <Register />
 }
