@@ -90,9 +90,11 @@ export const register = async (userData: RegisterUser) => {
       storeId(data.id);
       return { success: true };
     } else {
+      console.error(response.data);
       return { success: false, error: "Something went wrong!" };
     }
   } catch (error) {
+    console.error(error);
     return { success: false, error: "An error occurred" };
   }
 };
