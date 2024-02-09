@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+
+  todo-postgres:
+    image: postgres:latest
+    container_name: todo-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=3117
+      - POSTGRES_DB=todos
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    networks:
+      - todo-network
+  
+  backend:
+    build: ./backend
+    container_name: todo-backend
+    ports:
+      - 8000:8000
+    env_file:
+      - ./backend/.env
+    restart: on-failure
+    depends_on:
+      - todo-postgres
+    networks:
+      - todo-network
+
+  frontend:
+    build: ./frontend
+    container_name: todo-frontend
+    ports:
+      - 3000:3000
+    networks:
+      - todo-network
+
+volumes:
+  pg_data:
+
+networks:
+  todo-network:
+    driver: bridge
