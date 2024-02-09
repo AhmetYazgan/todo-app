@@ -6,10 +6,10 @@ export default function Home() {
       </h1>
       <p className="text-gray-800">
         Manage your tasks, stay organized, and increase your productivity with
-        our user-friendly todo app. Whether it's daily chores, work assignments,
-        or personal goals, you can keep track of everything in one place.
-        Create, edit, and mark tasks as completed to stay on top of your to-do
-        list effortlessly.
+        our user-friendly todo app. Whether it&#39;s daily chores, work
+        assignments, or personal goals, you can keep track of everything in one
+        place. Create, edit, and mark tasks as completed to stay on top of your
+        to-do list effortlessly.
       </p>
     </main>
   );
