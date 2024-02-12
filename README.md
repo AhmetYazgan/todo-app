@@ -67,23 +67,11 @@ docker-compose up -d --force-recreate
 
 But the application won't work, because the database is not ready yet.
 
-Run the folowing command to stop containers:
-
-```bash
-docker-compose down
-```
-
-Then go to backend dir and create your database schemas:
+Go to backend dir and create your database schemas:
 
 ```bash
 cd backend
 docker-compose exec backend python manage.py migrate
 ```
 
-After migrations applied, run your containers again:
-
-```bash
-docker-compose up
-```
-
-The application is now available on [http://localhost:3000](http://localhost:3000) (If it is not changed in Dockerfile or docker-compose).
+After migrations applied, the application is now available on [http://localhost:3000](http://localhost:3000) (If it is not changed in Dockerfile or docker-compose).
